@@ -1,61 +1,98 @@
-Social Media Auto Posting System using n8n
+# Social Media Auto Posting System using n8n
 
-An automation workflow that generates and publishes social media content across multiple platforms using AI and Google Sheets.
+A complete automation workflow built with n8n for creating and publishing social media content across multiple platforms.
 
-What This Does
+## Overview
 
-Reads content ideas from Google Sheets
+This workflow automates the full social media posting process.
+Content moves from idea to publication without manual effort.
 
-Generates platform specific captions and hashtags
+You manage content in Google Sheets.
+AI generates captions and hashtags.
+Posts publish automatically to each platform.
 
-Publishes posts automatically to major social platforms
+## Features
 
-Tracks status and post URLs centrally
+### AI Powered Content Generation
 
-Supported Platforms
+- Platform specific captions using OpenAI GPT 5
+- Optimized hashtags per platform
+- Image generation prompts
+- Tone adjustment for each network
 
+### Multi Platform Publishing
+
+Automated posting to:
+
+- Facebook page posts with landscape images
+- Instagram feed posts with portrait images
+- Twitter X character optimized posts
+- Pinterest board creation and pin posting
+- LinkedIn professional posts with media
+
+### Google Sheets Integration
+
+- Central content management
+- Platform wise status tracking
+- Post URL and ID logging
+- Bulk content planning
+
+### Intelligent Workflow
+
+- Parallel execution per platform
+- Automatic retries on failure
+- Image format optimization
+- Pinterest board creation if missing
+
+## Architecture
+
+### Workflow Structure
+
+```
+Google Sheets
+Status: New -> Pending -> Posted
+        |
+        v
+AI Agent (OpenAI GPT 5)
+Captions
+Hashtags
+Image prompts
+        |
+        v
+Update Google Sheet
+        |
+        v
+Parallel Platform Posting
 Facebook
-
 Instagram
-
-Twitter X
-
+Twitter
 Pinterest
-
 LinkedIn
+```
 
-Tech Stack
+## Technical Stack
 
-n8n
+- n8n
+- OpenAI GPT 5
+- Google Sheets API
+- Facebook Graph API
+- Twitter API v2
+- Pinterest API
+- LinkedIn API
 
-OpenAI GPT 5
+## Usage
 
-Google Sheets API
+1. Add content to Google Sheets
+2. Set status to New
+3. Run the workflow
+4. Posts publish automatically
+5. Status updates to Posted
 
-Platform native APIs
+## License
 
-How It Works
+Free for personal and commercial use.
+Credit required when shared publicly.
 
-Add content to Google Sheets
+## Contact
 
-Set status to New
-
-Run the workflow
-
-Posts publish automatically
-
-Status updates to Posted
-
-Who This Is For
-
-Marketing agencies
-
-Brands
-
-Content creators
-
-Internal marketing teams
-
-License
-
-Free for personal and commercial use with attribution.
+For questions or collaboration, connect via GitHub.
