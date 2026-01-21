@@ -1,6 +1,6 @@
 # Social Media Auto Posting System using n8n
 
-![https://raw.githubusercontent.com/azizinboxz/n8n-social-media-ai-automation/refs/heads/main/image.png]
+<img alt="Workflow" data-start="182" data-end="296" src="https://raw.githubusercontent.com/azizinboxz/n8n-social-media-ai-automation/refs/heads/main/image.png">
 
 A complete automation workflow built with n8n for creating and publishing social media content across multiple platforms.
 
