@@ -1,0 +1,2888 @@
+{
+  "name": "Astoria Socail Media",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -592,
+        -400
+      ],
+      "id": "a6c3c6f3-f23f-4e65-8fa0-8300d827b25c",
+      "name": "When chat message received",
+      "webhookId": "b9f56586-973c-433c-816a-639cc2c71d74"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1cblqmxQf8VOXyyRcJxYkIBZ-9J71nZ2MFPbpBEHXrbA",
+          "mode": "list",
+          "cachedResultName": "n8nSocialMediaPosting",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cblqmxQf8VOXyyRcJxYkIBZ-9J71nZ2MFPbpBEHXrbA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 381863905,
+          "mode": "list",
+          "cachedResultName": "Social Posts",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cblqmxQf8VOXyyRcJxYkIBZ-9J71nZ2MFPbpBEHXrbA/edit#gid=381863905"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Status",
+              "lookupValue": "=New"
+            }
+          ]
+        },
+        "options": {
+          "returnFirstMatch": true
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -384,
+        -400
+      ],
+      "id": "431023bc-cd7d-4b22-a8db-023cd7794b21",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "fNTHAqzOGHgHVBXF",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Title: {{$json[\"Title\"]}}\nShort Description: {{$json[\"Short Description\"] || \"\"}}\nMain Keywords: {{$json[\"Main Keywords\"] || \"\"}}\n\nPlease generate high-quality, engaging, and platform-tailored social media content based on the above details. Provide content for the following platforms, each with their unique tone and style:\n\n1. Facebook:\n   - Write a compelling, conversational caption designed to maximize engagement.\n   - Provide 5 relevant hashtags appropriate for Facebook’s audience and SEO.\n\n2. Instagram:\n   - Create a vibrant and concise caption that encourages interaction.\n   - Provide 7 trending and niche-specific hashtags optimized for Instagram.\n\n3. Pinterest:\n   - Suggest an SEO-optimized, catchy title.\n   - Write a persuasive, keyword-rich description suited for Pinterest users.\n   - Provide 5 to 10 targeted hashtags relevant to Pinterest’s search behavior.\n\n4. LinkedIn:\n   - Compose a professional, informative caption suitable for a B2B audience.\n   - Provide 5 professional and industry-specific hashtags relevant to LinkedIn.\n\n5. Twitter:\n   - Compose a concise, engaging tweet within 280 characters (including hashtags).\n   - Highlight the main value proposition in a sharp, punchy style.\n   - Include 4 to 6 relevant, non-redundant hashtags at the end of the tweet (not embedded).\n   - Avoid filler words, maintain clarity and impact.\n\n6. Image Prompt:\n   - Create a vivid, descriptive, and engaging prompt for an AI image generator.\n   - The prompt should reflect the content, tone, and keywords above.\n   - Include details on style, mood, and any visual elements relevant to the topic.\n   - Ensure the prompt is clear and optimized for generating a high-quality image suitable for social media banners.\n\nFormat the entire output strictly as a JSON object with the following keys:\n\nEnsure all captions are unique, contextually relevant, and free of any promotional jargon or call-to-action phrases unless naturally fitting. Avoid redundancy in hashtags across platforms and prioritize keyword diversity for SEO optimization.\n\nProvide the JSON output only, without any additional explanation or text.\n\n---\n\n **Your Final Output Format (JSON):**\n```json\n{\n  \"facebookCaption\": \"string\",\n  \"facebookTags\": \"comma-separated hashtags\",\n  \"instagramCaption\": \"string\",\n  \"instagramTags\": \"comma-separated hashtags\",\n  \"pinterestTitle\": \"string\",\n  \"pinterestDescription\": \"string\",\n  \"pinterestTags\": \"comma-separated hashtags\",\n  \"linkedinCaption\": \"string\",\n  \"linkedinTags\": \"comma-separated hashtags\",\n  \"twitterCaption\": \"string\",\n  \"twitterTags\": \"comma-separated hashtags\",\n  \"imagePrompt\": \"string\"\n}\n\n---\n",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are an expert social media marketing strategist and creative copywriter. Your task is to generate professional, highly engaging, platform-specific captions and hashtags tailored to Facebook, Instagram, Pinterest, and LinkedIn. Align tone with modern trends, brand identity, and audience psychology. Ensure clarity, emotional resonance, and SEO optimization for each platform. Also generate a compelling image prompt that aligns perfectly with the content and platform style."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.1,
+      "position": [
+        -176,
+        -400
+      ],
+      "id": "349716d9-93e7-4aba-8c92-3ab55c1b8124",
+      "name": "AI Agent",
+      "executeOnce": false,
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5",
+          "mode": "list",
+          "cachedResultName": "gpt-5"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -224,
+        -240
+      ],
+      "id": "436833d4-71ac-4017-bf48-fcd613558414",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "Sh58gMZMDeTvVzsX",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1cblqmxQf8VOXyyRcJxYkIBZ-9J71nZ2MFPbpBEHXrbA",
+          "mode": "list",
+          "cachedResultName": "n8nSocialMediaPosting",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cblqmxQf8VOXyyRcJxYkIBZ-9J71nZ2MFPbpBEHXrbA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 381863905,
+          "mode": "list",
+          "cachedResultName": "Social Posts",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cblqmxQf8VOXyyRcJxYkIBZ-9J71nZ2MFPbpBEHXrbA/edit#gid=381863905"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Facebook Caption": "={{ $json.output.facebookCaption }}",
+            "Facebook Tags": "={{ $json.output.facebookTags }}",
+            "Instagram Caption": "={{ $json.output.instagramCaption }}",
+            "Instagram Tags": "={{ $json.output.instagramTags }}",
+            "Pinterest Title": "={{ $json.output.pinterestTitle }}",
+            "Pinterest Description": "={{ $json.output.pinterestDescription }}",
+            "Pinterest Tags": "={{ $json.output.pinterestTags }}",
+            "LinkedIn Caption": "={{ $json.output.linkedinCaption }}",
+            "LinkedIn Tags": "={{ $json.output.linkedinTags }}",
+            "Image URL": "={{ $json.output.imagePrompt }}",
+            "row_number": "={{ $('Get row(s) in sheet').item.json.row_number }}",
+            "Status": "Pending",
+            "Twitter Caption": "={{ $json.output.twitterCaption }}",
+            "Twitter Tags": "={{ $json.output.twitterTags }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Short Description",
+              "displayName": "Short Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Main Keywords",
+              "displayName": "Main Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Image URL",
+              "displayName": "Image URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Post URL",
+              "displayName": "Post URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Facebook Caption",
+              "displayName": "Facebook Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Facebook Tags",
+              "displayName": "Facebook Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Instagram Caption",
+              "displayName": "Instagram Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Instagram Tags",
+              "displayName": "Instagram Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pinterest Board",
+              "displayName": "Pinterest Board",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Pinterest Title",
+              "displayName": "Pinterest Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pinterest Description",
+              "displayName": "Pinterest Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pinterest Tags",
+              "displayName": "Pinterest Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "LinkedIn Caption",
+              "displayName": "LinkedIn Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "LinkedIn Tags",
+              "displayName": "LinkedIn Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Twitter Caption",
+              "displayName": "Twitter Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Twitter Tags",
+              "displayName": "Twitter Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Image Prompt",
+              "displayName": "Image Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Facebook Status",
+              "displayName": "Facebook Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Instagram Status",
+              "displayName": "Instagram Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Pinterest Status",
+              "displayName": "Pinterest Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "LinkdIn Status",
+              "displayName": "LinkdIn Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Twitter Status",
+              "displayName": "Twitter Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        192,
+        -400
+      ],
+      "id": "759ce515-c556-4956-8b12-70527d649fd5",
+      "name": "Update row in sheet",
+      "executeOnce": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "fNTHAqzOGHgHVBXF",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"facebookCaption\": \"...\",\n  \"facebookTags\": \"...\",\n  \"instagramCaption\": \"...\",\n  \"instagramTags\": \"...\",\n  \"pinterestTitle\": \"...\",\n  \"pinterestDescription\": \"...\",\n  \"pinterestTags\": \"...\",\n  \"linkedinCaption\": \"...\",\n  \"linkedinTags\": \"...\",\n  \"twitterCaption\": \"...\",\n  \"twitterTags\": \"...\",\n  \"imagePrompt\": \"...\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        32,
+        -256
+      ],
+      "id": "50f5ac6b-b3f7-4816-8c83-b56c6f5b1eb3",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "content": "## Main Model \n**Generate AI Prompt Model",
+        "height": 384,
+        "width": 1136
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -752,
+        -480
+      ],
+      "typeVersion": 1,
+      "id": "42bb908a-764c-4008-bc7c-860ff0f13264",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -608,
+        16
+      ],
+      "id": "df5ea003-cc6d-4a4d-ad26-91b7e2b77ef7",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1cblqmxQf8VOXyyRcJxYkIBZ-9J71nZ2MFPbpBEHXrbA",
+          "mode": "list",
+          "cachedResultName": "n8nSocialMediaPosting",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cblqmxQf8VOXyyRcJxYkIBZ-9J71nZ2MFPbpBEHXrbA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 381863905,
+          "mode": "list",
+          "cachedResultName": "Social Posts",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cblqmxQf8VOXyyRcJxYkIBZ-9J71nZ2MFPbpBEHXrbA/edit#gid=381863905"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Status",
+              "lookupValue": "Pending"
+            }
+          ]
+        },
+        "options": {
+          "returnFirstMatch": true
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -384,
+        16
+      ],
+      "id": "b8fb349b-5577-41e6-856f-a99e88c7f480",
+      "name": "Get row(s) in sheet1",
+      "executeOnce": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "fNTHAqzOGHgHVBXF",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "row_number",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        16
+      ],
+      "id": "344ea50e-e369-4caa-8c55-3e233606d2b0",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "height": 1408,
+        "width": 1584,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -752,
+        -48
+      ],
+      "typeVersion": 1,
+      "id": "08b62a77-a347-4ac9-a16e-f36f3bc9af66",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "httpRequestMethod": "POST",
+        "graphApiVersion": "v22.0",
+        "node": "/755862824274044/photos",
+        "options": {
+          "queryParameters": {
+            "parameter": [
+              {
+                "name": "message",
+                "value": "={{ $json['Facebook Caption'] }} \nLearn more 👉  {{ $json['Post URL'] }}\n\n{{ $json['Facebook Tags'] }}"
+              },
+              {
+                "name": "url",
+                "value": "={{ $json['Image URL'].replace(/(\\.[^./]+)$/, '-landscape$1') }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "typeVersion": 1,
+      "position": [
+        -464,
+        240
+      ],
+      "id": "607ccc38-2e33-4370-bdd1-3a8258c4e748",
+      "name": "Facebook Graph API",
+      "executeOnce": false,
+      "credentials": {
+        "facebookGraphApi": {
+          "id": "eFubfu9NOg0CGQPt",
+          "name": "Facebook Page Posting"
+        }
+      },
+      "notes": "page access token should be used\nand graph api should be only /id url\n\nlong live access token\nhttps://developers.facebook.com/docs/facebook-login/guides/access-tokens/get-long-lived/\n\n\n\n\n{{ $json[\"Image URL\"].replace(/(\\.[^./?#]+)$/, \"-landscape$1\") }}"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1cblqmxQf8VOXyyRcJxYkIBZ-9J71nZ2MFPbpBEHXrbA",
+          "mode": "list",
+          "cachedResultName": "n8nSocialMediaPosting",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cblqmxQf8VOXyyRcJxYkIBZ-9J71nZ2MFPbpBEHXrbA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 381863905,
+          "mode": "list",
+          "cachedResultName": "Social Posts",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cblqmxQf8VOXyyRcJxYkIBZ-9J71nZ2MFPbpBEHXrbA/edit#gid=381863905"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $('Get row(s) in sheet1').item.json.row_number }}",
+            "Facebook Status": "=Posted - {{ $json.id }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Short Description",
+              "displayName": "Short Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Main Keywords",
+              "displayName": "Main Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Image URL",
+              "displayName": "Image URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Post URL",
+              "displayName": "Post URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Facebook Caption",
+              "displayName": "Facebook Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Facebook Tags",
+              "displayName": "Facebook Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Instagram Caption",
+              "displayName": "Instagram Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Instagram Tags",
+              "displayName": "Instagram Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pinterest Title",
+              "displayName": "Pinterest Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pinterest Description",
+              "displayName": "Pinterest Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pinterest Tags",
+              "displayName": "Pinterest Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "LinkedIn Caption",
+              "displayName": "LinkedIn Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "LinkedIn Tags",
+              "displayName": "LinkedIn Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Image Prompt",
+              "displayName": "Image Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Facebook Status",
+              "displayName": "Facebook Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Instagram Status",
+              "displayName": "Instagram Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pinterest Status",
+              "displayName": "Pinterest Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "LinkdIn Status",
+              "displayName": "LinkdIn Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -192,
+        240
+      ],
+      "id": "35b61a52-abcf-4274-86b4-3c0cea64b998",
+      "name": "Update row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "fNTHAqzOGHgHVBXF",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        16,
+        240
+      ],
+      "id": "017f32f9-f04f-463c-afd9-ba6a8ddc79b2",
+      "name": "Done"
+    },
+    {
+      "parameters": {
+        "httpRequestMethod": "POST",
+        "graphApiVersion": "v19.0",
+        "node": "/17841472111267656/media",
+        "options": {
+          "queryParametersJson": "={\n  \"image_url\": \"{{ $json['Image URL'].replace(/(\\.[^./]+)$/, '-portrait$1') }}\",\n  \"caption\": \"{{ $json['Instagram Caption'] }} Learn more 👉 {{ $json['Post URL'] }}\"\n}"
+        }
+      },
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "typeVersion": 1,
+      "position": [
+        -464,
+        448
+      ],
+      "id": "b5faa13a-24e7-4f29-bcdb-c1952c3c0d41",
+      "name": "Facebook Graph API1",
+      "executeOnce": true,
+      "credentials": {
+        "facebookGraphApi": {
+          "id": "Tko8ggotmJqv1RSc",
+          "name": "Facebook Insta Token"
+        }
+      },
+      "notes": "page access token should be used\nand graph api should be only /id url\n\nlong live access token\nhttps://developers.facebook.com/docs/facebook-login/guides/access-tokens/get-long-lived/"
+    },
+    {
+      "parameters": {
+        "httpRequestMethod": "POST",
+        "graphApiVersion": "v22.0",
+        "node": "/17841472111267656/media_publish",
+        "options": {
+          "queryParametersJson": "={\"creation_id\": \"{{ $json.id }}\"  }"
+        }
+      },
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "typeVersion": 1,
+      "position": [
+        -272,
+        448
+      ],
+      "id": "48b0a48f-22f6-4b47-844d-48c3be474d50",
+      "name": "Facebook Graph API2",
+      "executeOnce": true,
+      "credentials": {
+        "facebookGraphApi": {
+          "id": "Tko8ggotmJqv1RSc",
+          "name": "Facebook Insta Token"
+        }
+      },
+      "notes": "page access token should be used\nand graph api should be only /id url\n\nlong live access token\nhttps://developers.facebook.com/docs/facebook-login/guides/access-tokens/get-long-lived/"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1cblqmxQf8VOXyyRcJxYkIBZ-9J71nZ2MFPbpBEHXrbA",
+          "mode": "list",
+          "cachedResultName": "n8nSocialMediaPosting",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cblqmxQf8VOXyyRcJxYkIBZ-9J71nZ2MFPbpBEHXrbA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 381863905,
+          "mode": "list",
+          "cachedResultName": "Social Posts",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cblqmxQf8VOXyyRcJxYkIBZ-9J71nZ2MFPbpBEHXrbA/edit#gid=381863905"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $('Get row(s) in sheet1').item.json.row_number }}",
+            "Instagram Status": "=Posted -  {{ $json.id }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Short Description",
+              "displayName": "Short Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Main Keywords",
+              "displayName": "Main Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Image URL",
+              "displayName": "Image URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Post URL",
+              "displayName": "Post URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Facebook Caption",
+              "displayName": "Facebook Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Facebook Tags",
+              "displayName": "Facebook Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Instagram Caption",
+              "displayName": "Instagram Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Instagram Tags",
+              "displayName": "Instagram Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pinterest Title",
+              "displayName": "Pinterest Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pinterest Description",
+              "displayName": "Pinterest Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pinterest Tags",
+              "displayName": "Pinterest Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "LinkedIn Caption",
+              "displayName": "LinkedIn Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "LinkedIn Tags",
+              "displayName": "LinkedIn Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Image Prompt",
+              "displayName": "Image Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Facebook Status",
+              "displayName": "Facebook Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Instagram Status",
+              "displayName": "Instagram Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pinterest Status",
+              "displayName": "Pinterest Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "LinkdIn Status",
+              "displayName": "LinkdIn Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -96,
+        448
+      ],
+      "id": "6ab1b9b0-5eff-49e9-bccd-8a7ec4a79e18",
+      "name": "Update row in sheet2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "fNTHAqzOGHgHVBXF",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        64,
+        448
+      ],
+      "id": "0812db66-4c72-4918-b91f-0e3eebb6b9d4",
+      "name": "Done1"
+    },
+    {
+      "parameters": {
+        "amount": 3
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -640,
+        240
+      ],
+      "id": "e4685c3b-d253-4ebd-9057-5d55a4151993",
+      "name": "Facebook Page Post",
+      "webhookId": "f4ded9af-e98a-4ca7-ab28-c034fe333baf"
+    },
+    {
+      "parameters": {
+        "amount": 3
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -640,
+        448
+      ],
+      "id": "5f240dd8-8db9-4c10-899b-f7131372f87f",
+      "name": "Instagram Posting",
+      "webhookId": "f4ded9af-e98a-4ca7-ab28-c034fe333baf"
+    },
+    {
+      "parameters": {
+        "amount": 3
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -640,
+        944
+      ],
+      "id": "e49f62f6-a3ef-4513-9041-8714f3eb85ac",
+      "name": "Twiter",
+      "webhookId": "f4ded9af-e98a-4ca7-ab28-c034fe333baf"
+    },
+    {
+      "parameters": {
+        "content": "## Facebook \n**Section**",
+        "height": 192,
+        "width": 1488,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -688,
+        192
+      ],
+      "typeVersion": 1,
+      "id": "c3dfca2b-5b8b-45f8-b26f-5585f772544d",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Instagram",
+        "height": 192,
+        "width": 1488
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -688,
+        400
+      ],
+      "typeVersion": 1,
+      "id": "8a65f475-4162-4859-8cd2-fae158b26a8f",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1cblqmxQf8VOXyyRcJxYkIBZ-9J71nZ2MFPbpBEHXrbA",
+          "mode": "list",
+          "cachedResultName": "n8nSocialMediaPosting",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cblqmxQf8VOXyyRcJxYkIBZ-9J71nZ2MFPbpBEHXrbA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 381863905,
+          "mode": "list",
+          "cachedResultName": "Social Posts",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cblqmxQf8VOXyyRcJxYkIBZ-9J71nZ2MFPbpBEHXrbA/edit#gid=381863905"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $('Get row(s) in sheet1').item.json.row_number }}",
+            "Twitter Status": "=Posted -   {{ $json.id }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Short Description",
+              "displayName": "Short Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Main Keywords",
+              "displayName": "Main Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Image URL",
+              "displayName": "Image URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Post URL",
+              "displayName": "Post URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Facebook Caption",
+              "displayName": "Facebook Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Facebook Tags",
+              "displayName": "Facebook Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Instagram Caption",
+              "displayName": "Instagram Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Instagram Tags",
+              "displayName": "Instagram Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pinterest Board",
+              "displayName": "Pinterest Board",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pinterest Title",
+              "displayName": "Pinterest Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pinterest Description",
+              "displayName": "Pinterest Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pinterest Tags",
+              "displayName": "Pinterest Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "LinkedIn Caption",
+              "displayName": "LinkedIn Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "LinkedIn Tags",
+              "displayName": "LinkedIn Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Twitter Caption",
+              "displayName": "Twitter Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Image Prompt",
+              "displayName": "Image Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Facebook Status",
+              "displayName": "Facebook Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Instagram Status",
+              "displayName": "Instagram Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pinterest Status",
+              "displayName": "Pinterest Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "LinkdIn Status",
+              "displayName": "LinkdIn Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Twitter Status",
+              "displayName": "Twitter Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -240,
+        944
+      ],
+      "id": "98bedfb5-196b-4545-b48d-db3206555ebe",
+      "name": "Update row in sheet3",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "fNTHAqzOGHgHVBXF",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        0,
+        944
+      ],
+      "id": "fca61e35-2c50-44b7-b4ff-9031bc526472",
+      "name": "Done2"
+    },
+    {
+      "parameters": {
+        "content": "## Twitter",
+        "height": 208,
+        "width": 1488,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -688,
+        896
+      ],
+      "typeVersion": 1,
+      "id": "e69985cf-1d3f-482f-ac92-0d84509028b7",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "text": "={{ $json['Twitter Caption'] }} Learn more 👉 {{ $json['Post URL'] }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.twitter",
+      "typeVersion": 2,
+      "position": [
+        -464,
+        944
+      ],
+      "id": "6a5e147d-ddcf-4602-ba56-9970ced0a72f",
+      "name": "Create Tweet1",
+      "credentials": {
+        "twitterOAuth2Api": {
+          "id": "1keRCn6zHVacxw1r",
+          "name": "X Astoria"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "860c967c-f3ee-43d3-887a-c162e83a25c5",
+              "leftValue": "={{ $json.code }}",
+              "rightValue": 58,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -256,
+        688
+      ],
+      "id": "b321b416-6bd4-403d-aad1-bdb403c51102",
+      "name": "If Board Found"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api-sandbox.pinterest.com/v5/pins",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n\"link\":\"{{ $('Get row(s) in sheet1').item.json['Post URL'] }}\",\n  \"board_id\": \"{{ $json.id }}\",\n  \"title\": \"{{ $('Get row(s) in sheet1').item.json['Pinterest Title'] }}\",\n  \"alt_text\": \"{{ $('Get row(s) in sheet1').item.json['Pinterest Title'] }}\",\n  \"description\": \"{{ $('Get row(s) in sheet1').item.json['Pinterest Description'] }}\",\n  \"media_source\": {\n\"source_type\": \"image_url\",\n    \"url\": \"{{ $('Get row(s) in sheet1').item.json['Image URL'].replace(/(\\.[^./]+)$/, '-portrait$1') }}\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -80,
+        752
+      ],
+      "id": "cbf94da3-d9c8-4d24-aa7b-bec068335372",
+      "name": "Post Pin",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "i85KB2otCbjtsvYv",
+          "name": "Pintrest Astoria"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        624,
+        752
+      ],
+      "id": "daf35dc2-fbb9-4302-bf59-c1555f328212",
+      "name": "Done3"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1cblqmxQf8VOXyyRcJxYkIBZ-9J71nZ2MFPbpBEHXrbA",
+          "mode": "list",
+          "cachedResultName": "n8nSocialMediaPosting",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cblqmxQf8VOXyyRcJxYkIBZ-9J71nZ2MFPbpBEHXrbA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 381863905,
+          "mode": "list",
+          "cachedResultName": "Social Posts",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cblqmxQf8VOXyyRcJxYkIBZ-9J71nZ2MFPbpBEHXrbA/edit#gid=381863905"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $('Get row(s) in sheet1').item.json.row_number }}",
+            "Pinterest Status": "=Posted -   {{ $json.id }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Short Description",
+              "displayName": "Short Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Main Keywords",
+              "displayName": "Main Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Image URL",
+              "displayName": "Image URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Post URL",
+              "displayName": "Post URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Facebook Caption",
+              "displayName": "Facebook Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Facebook Tags",
+              "displayName": "Facebook Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Instagram Caption",
+              "displayName": "Instagram Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Instagram Tags",
+              "displayName": "Instagram Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pinterest Title",
+              "displayName": "Pinterest Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pinterest Description",
+              "displayName": "Pinterest Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pinterest Tags",
+              "displayName": "Pinterest Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "LinkedIn Caption",
+              "displayName": "LinkedIn Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "LinkedIn Tags",
+              "displayName": "LinkedIn Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Image Prompt",
+              "displayName": "Image Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Facebook Status",
+              "displayName": "Facebook Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Instagram Status",
+              "displayName": "Instagram Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pinterest Status",
+              "displayName": "Pinterest Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "LinkdIn Status",
+              "displayName": "LinkdIn Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        208,
+        752
+      ],
+      "id": "0be14014-4b05-4a20-a946-d112b4050c12",
+      "name": "Update row in sheet4",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "fNTHAqzOGHgHVBXF",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api-sandbox.pinterest.com/v5/boards",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer pinterest_sandbox_token"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "name",
+              "value": "={{ $json['Pinterest Board'] }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -448,
+        688
+      ],
+      "id": "b55dd877-074f-4207-b613-25f6ddc5d63e",
+      "name": "Create Board2"
+    },
+    {
+      "parameters": {
+        "url": "https://api-sandbox.pinterest.com/v5/boards",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer "
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -80,
+        608
+      ],
+      "id": "1d317c7d-6118-4912-a0f2-8413f1874625",
+      "name": "Board List"
+    },
+    {
+      "parameters": {
+        "amount": 3
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -640,
+        688
+      ],
+      "id": "395bd43f-45e8-4f2e-bedf-f52d854d02c5",
+      "name": "Pintrest",
+      "webhookId": "f4ded9af-e98a-4ca7-ab28-c034fe333baf"
+    },
+    {
+      "parameters": {
+        "amount": 3
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -640,
+        1200
+      ],
+      "id": "8307ff58-c241-44db-944d-0b0cfdf8e8f8",
+      "name": "Linkedin",
+      "webhookId": "f4ded9af-e98a-4ca7-ab28-c034fe333baf"
+    },
+    {
+      "parameters": {
+        "person": "46KFWmjLWA",
+        "text": "={{ $json['LinkedIn Caption'] }} Learn more 👉 {{ $json['Post URL'] }}\n\n{{ $json['LinkedIn Tags'] }}",
+        "shareMediaCategory": "IMAGE",
+        "additionalFields": {
+          "title": "={{ $json.Title }}"
+        }
+      },
+      "type": "n8n-nodes-base.linkedIn",
+      "typeVersion": 1,
+      "position": [
+        -224,
+        1200
+      ],
+      "id": "ac6af100-405d-4152-85be-214995719ec4",
+      "name": "Create a post",
+      "credentials": {
+        "linkedInOAuth2Api": {
+          "id": "WABTB3RNY8mmb4DA",
+          "name": "LinkedIn account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json['Image URL'].replace(/(\\.[^./]+)$/, '-landscape$1') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -432,
+        1200
+      ],
+      "id": "ffafcfdc-b9f6-4d3a-bf00-172b7c602299",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1cblqmxQf8VOXyyRcJxYkIBZ-9J71nZ2MFPbpBEHXrbA",
+          "mode": "list",
+          "cachedResultName": "n8nSocialMediaPosting",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cblqmxQf8VOXyyRcJxYkIBZ-9J71nZ2MFPbpBEHXrbA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 381863905,
+          "mode": "list",
+          "cachedResultName": "Social Posts",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cblqmxQf8VOXyyRcJxYkIBZ-9J71nZ2MFPbpBEHXrbA/edit#gid=381863905"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $('Get row(s) in sheet1').item.json.row_number }}",
+            "LinkdIn Status": "=Posted -   {{ $json['id'] ?? $json['urn'] }}",
+            "Status": "Posted"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Short Description",
+              "displayName": "Short Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Main Keywords",
+              "displayName": "Main Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Image URL",
+              "displayName": "Image URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Post URL",
+              "displayName": "Post URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Facebook Caption",
+              "displayName": "Facebook Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Facebook Tags",
+              "displayName": "Facebook Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Instagram Caption",
+              "displayName": "Instagram Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Instagram Tags",
+              "displayName": "Instagram Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pinterest Board",
+              "displayName": "Pinterest Board",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pinterest Title",
+              "displayName": "Pinterest Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pinterest Description",
+              "displayName": "Pinterest Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pinterest Tags",
+              "displayName": "Pinterest Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "LinkedIn Caption",
+              "displayName": "LinkedIn Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "LinkedIn Tags",
+              "displayName": "LinkedIn Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Twitter Caption",
+              "displayName": "Twitter Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Image Prompt",
+              "displayName": "Image Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Facebook Status",
+              "displayName": "Facebook Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Instagram Status",
+              "displayName": "Instagram Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pinterest Status",
+              "displayName": "Pinterest Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "LinkdIn Status",
+              "displayName": "LinkdIn Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Twitter Status",
+              "displayName": "Twitter Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        0,
+        1200
+      ],
+      "id": "415fc39e-502d-4f6c-ac55-c725c2274c2f",
+      "name": "Update row in sheet5",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "fNTHAqzOGHgHVBXF",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        224,
+        1200
+      ],
+      "id": "85dbc2f7-2e66-47d6-8e99-a67ca78b2110",
+      "name": "Done4"
+    },
+    {
+      "parameters": {
+        "jsCode": "const boardName = $items(\"Pintrest\")[0].json[\"Pinterest Board\"];\n\nreturn $input.first().json.items\n  .filter(board => board.name === boardName)\n  .map(board => {\n    return {\n      json: {\n        id: board.id,\n        name: board.name\n      }\n    };\n  });"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        80,
+        608
+      ],
+      "id": "49a3d736-9701-48d2-9182-9d39536c8027",
+      "name": "Filter For Id"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api-sandbox.pinterest.com/v5/pins",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n\"link\":\"{{ $('Get row(s) in sheet1').item.json['Post URL'] }}\",\n  \"board_id\": \"{{ $json.id }}\",\n  \"title\": \"{{ $('Get row(s) in sheet1').item.json['Pinterest Title'] }}\",\n  \"alt_text\": \"{{ $('Get row(s) in sheet1').item.json['Pinterest Title'] }}\",\n  \"description\": \"{{ $('Get row(s) in sheet1').item.json['Pinterest Description'] }}\",\n  \"media_source\": {\n\"source_type\": \"image_url\",\n    \"url\": \"{{ $('Get row(s) in sheet1').item.json['Image URL'].replace(/(\\.[^./]+)$/, '-portrait$1') }}\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        304,
+        608
+      ],
+      "id": "868a7d1d-05c9-44ca-a555-d37fcdfc8207",
+      "name": "Post Pin1",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "i85KB2otCbjtsvYv",
+          "name": "Pintrest Astoria"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1cblqmxQf8VOXyyRcJxYkIBZ-9J71nZ2MFPbpBEHXrbA",
+          "mode": "list",
+          "cachedResultName": "n8nSocialMediaPosting",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cblqmxQf8VOXyyRcJxYkIBZ-9J71nZ2MFPbpBEHXrbA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 381863905,
+          "mode": "list",
+          "cachedResultName": "Social Posts",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cblqmxQf8VOXyyRcJxYkIBZ-9J71nZ2MFPbpBEHXrbA/edit#gid=381863905"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $('Get row(s) in sheet1').item.json.row_number }}",
+            "Pinterest Status": "=Posted -   {{ $json.id }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Short Description",
+              "displayName": "Short Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Main Keywords",
+              "displayName": "Main Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Image URL",
+              "displayName": "Image URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Post URL",
+              "displayName": "Post URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Facebook Caption",
+              "displayName": "Facebook Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Facebook Tags",
+              "displayName": "Facebook Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Instagram Caption",
+              "displayName": "Instagram Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Instagram Tags",
+              "displayName": "Instagram Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pinterest Title",
+              "displayName": "Pinterest Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pinterest Description",
+              "displayName": "Pinterest Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pinterest Tags",
+              "displayName": "Pinterest Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "LinkedIn Caption",
+              "displayName": "LinkedIn Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "LinkedIn Tags",
+              "displayName": "LinkedIn Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Image Prompt",
+              "displayName": "Image Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Facebook Status",
+              "displayName": "Facebook Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Instagram Status",
+              "displayName": "Instagram Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pinterest Status",
+              "displayName": "Pinterest Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "LinkdIn Status",
+              "displayName": "LinkdIn Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        448,
+        608
+      ],
+      "id": "06657ca3-d1f9-44ed-bb32-ce0a8d67d730",
+      "name": "Update row in sheet6",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "fNTHAqzOGHgHVBXF",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Linkedin",
+        "height": 176,
+        "width": 1488,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -688,
+        1152
+      ],
+      "typeVersion": 1,
+      "id": "3c553eeb-54d6-476c-a4a1-86a6154ad808",
+      "name": "Sticky Note5"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet": {
+      "main": [
+        []
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Facebook Page Post",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Instagram Posting",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Pintrest",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Twiter",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Linkedin",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Facebook Graph API": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Done",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Facebook Graph API1": {
+      "main": [
+        [
+          {
+            "node": "Facebook Graph API2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Facebook Graph API2": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet2": {
+      "main": [
+        [
+          {
+            "node": "Done1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Facebook Page Post": {
+      "main": [
+        [
+          {
+            "node": "Facebook Graph API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Instagram Posting": {
+      "main": [
+        [
+          {
+            "node": "Facebook Graph API1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Twiter": {
+      "main": [
+        [
+          {
+            "node": "Create Tweet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet3": {
+      "main": [
+        [
+          {
+            "node": "Done2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Tweet1": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Board Found": {
+      "main": [
+        [
+          {
+            "node": "Board List",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Post Pin",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post Pin": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet4": {
+      "main": [
+        [
+          {
+            "node": "Done3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Board2": {
+      "main": [
+        [
+          {
+            "node": "If Board Found",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pintrest": {
+      "main": [
+        [
+          {
+            "node": "Create Board2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Linkedin": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Create a post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a post": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet5": {
+      "main": [
+        [
+          {
+            "node": "Done4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Board List": {
+      "main": [
+        [
+          {
+            "node": "Filter For Id",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter For Id": {
+      "main": [
+        [
+          {
+            "node": "Post Pin1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post Pin1": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet6": {
+      "main": [
+        [
+          {
+            "node": "Done3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "e4d8b177-273c-41f2-939e-bcae38c11b01",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "5e565fca886d7698f2eb698be76e6699a8a11f5149bd2dde517b0850d0a35f54"
+  },
+  "id": "BYcFPMxJqwPNmz70",
+  "tags": []
+}
